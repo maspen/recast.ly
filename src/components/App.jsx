@@ -25,7 +25,7 @@ class App extends React.Component {
     }
   }
   
-  handleVideoListEntryClick(movie) {
+  handleVideoListEntryClick = movie => {
     this.setState({
       currentVideo: window.exampleVideoData[Number(movie.target.id)]
     })
