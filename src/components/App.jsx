@@ -25,10 +25,17 @@ class App extends React.Component {
     }
   }
   
-  handleVideoListEntryClick = movie => {
+  handleVideoListEntryClick(movie) {
     this.setState({
       currentVideo: window.exampleVideoData[Number(movie.target.id)]
     })
+  }
+  
+  searchYouTube(query) {
+    console.log('App.search query: ', query);
+    // this.setState
+    //    videos: query
+    //    currentVideo: query[0]
   }
   
   // search: function(query) {
@@ -71,12 +78,12 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em>blah blah blah</h5></div>
+            <div><Search search={this.searchYouTube} /></div>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <div><VideoPlayer video={this.state.currentVideo} /></div>
+            <div><VideoPlayer video={this.state.currentVideo.bind(this)} /></div>
           </div>
           <div className="col-md-5">
             <div><VideoList updateVideoPlayer={this.handleVideoListEntryClick.bind(this)} videos={this.state.videos} /></div>
