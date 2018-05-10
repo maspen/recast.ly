@@ -1,89 +1,76 @@
-// var App = () => (
-//   <div>
-//     <nav className="navbar">
-//       <div className="col-md-6 offset-md-3">
-//         <div><h5><em>search</em>blah blah blah</h5></div>
-//       </div>
-//     </nav>
-//     <div className="row">
-//       <div className="col-md-7">
-//         <div><VideoPlayer video={window.exampleVideoData[0]} /></div>
-//       </div>
-//       <div className="col-md-5">
-//         <div><VideoList videos={window.exampleVideoData} /></div>
-//       </div>
-//     </div>
-//   </div>
-// );
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      videos: window.exampleVideoData,
-      currentVideo: window.exampleVideoData[0]
+      videos: null,
+      currentVideo: null,
+      searchQuery: ''
     }
+
+    // on start up, need to put in 'dummy' data
+    // since 1st, default youtube search is happening
+    // in componentDidMount() which is called AFTER
+    // all components load
+    this.state.videos = [{
+      snippet: {
+        thumbnails: {
+          default: {
+            url: ""
+          }
+        },
+        title: "",
+        description: "",
+      },
+      etag: "",
+      id: {
+        videoId: ""
+      }
+    }];
+
+    this.state.currentVideo = this.state.videos[0];
+  }
+
+  componentDidMount() {
+    window.searchYouTube({ key: window.YOUTUBE_API_KEY, query: 'puppies', max: 10 }, this.searchResultCallback.bind(this));
   }
   
   handleVideoListEntryClick(movie) {
     this.setState({
-      currentVideo: window.exampleVideoData[Number(movie.target.id)]
+      currentVideo: this.state.videos[Number(movie.target.id)]
     })
   }
   
-  searchYouTube(query) {
-    console.log('App.search query: ', query);
-    // this.setState
-    //    videos: query
-    //    currentVideo: query[0]
+  handleChange(e) {
+    this.setState({ searchQuery: e.target.value });
   }
-  
-  // search: function(query) {
-  //   // fetch - query data, already has url
-  //   // create a parse method
-  //   $.ajax({
-  //     url: this.url,
-  //     type: 'GET',
-  //     data: {
-  //       key: YOUTUBE_API_KEY,
-  //       maxResults: '5',
-  //       q: query,
-  //       part: 'snippet'
-  //     },
-  //     dataType: 'json',
-  //     success: function(data) {
-  //       console.log('Success!', data.items);
-  //       this.set( data.items );
-  //       var model = data.items[0];
 
-  //       var id = model.id.videoId;
-  //       var title = model.snippet.title;
-  //       var description = model.snippet.description;
-  //       var url = `https://www.youtube.com/embed/${id}`;
+  searchResultCallback(resultData) {
+    console.log('searchResultCallback ', resultData);
+    this.setState({ 
+      videos: resultData,
+      currentVideo: resultData[0]
+     });
+  }
 
-  //       $('.video-player').find('iframe').attr('src', url);
-  //       $('.video-player').find('iframe').attr('src', url);
-  //       $('.video-player').find('.video-player-details h3').text(title);      
-  //       $('.video-player').find('.video-player-details div').text(description);
-
-  //     }.bind(this),
-  //     error: function(data) {
-  //       console.log('Failure...', data);
-  //     }.bind(this)
-  //   });
-  // },
+  searchYouTubeButtonClick() {
+    console.log('search box input', this.state.searchQuery);
+    // { key: 'API_KEY', query: 'cats', max: 10 }
+    //window.searchYouTube(this.state.searchQuery, this.searchResultCallback.bind(this));
+    window.searchYouTube({ key: YOUTUBE_API_KEY, query: this.state.searchQuery, max: 10 }, this.searchResultCallback.bind(this));
+  }
   
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search search={this.searchYouTube} /></div>
+            <div><Search search={this.searchYouTubeButtonClick.bind(this)} textBoxChange={this.handleChange.bind(this)} /></div>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <div><VideoPlayer video={this.state.currentVideo.bind(this)} /></div>
+            <div><VideoPlayer video={this.state.currentVideo} /></div>
           </div>
           <div className="col-md-5">
             <div><VideoList updateVideoPlayer={this.handleVideoListEntryClick.bind(this)} videos={this.state.videos} /></div>

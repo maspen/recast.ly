@@ -1,23 +1,21 @@
-class VideoList extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
+// class VideoList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     // this.state = {
       
-    // }
-  }
+//     // }
+//   }
   
-  render() {
-    var updateVideoPlayer = this.props.updateVideoPlayer;    
-      console.log('VideoList: handleChange from APP: ', updateVideoPlayer);
-    return (
+//   render() {
+//     var updateVideoPlayer = this.props.updateVideoPlayer;    
+//       console.log('VideoList: handleChange from APP: ', updateVideoPlayer);
+var VideoList = (props) => (
       <div className="video-list">
-        {this.props.videos.map((movie, i) => 
-            <VideoListEntry clickForPlayer={updateVideoPlayer} key={movie.etag.toString()} video={movie} movieIndex={i} />
+        {props.videos.map((movie, i) => 
+            <VideoListEntry clickForPlayer={props.updateVideoPlayer} key={movie.etag.toString()} video={movie} movieIndex={i} />
         )}
       </div>
-    );
-  }
-}
+)
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated

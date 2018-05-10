@@ -2,8 +2,6 @@
 
 var sampleData = window.exampleVideoData;
 ReactDOM.render(
-  // <window.App data=window.exampleVideoData />,
-  // document.getElementById('app')
-  <window.App />,
+  <window.App data={window.exampleVideoData} />,
   document.getElementById('app')
 );
