@@ -31,6 +31,41 @@ class App extends React.Component {
     })
   }
   
+  // search: function(query) {
+  //   // fetch - query data, already has url
+  //   // create a parse method
+  //   $.ajax({
+  //     url: this.url,
+  //     type: 'GET',
+  //     data: {
+  //       key: YOUTUBE_API_KEY,
+  //       maxResults: '5',
+  //       q: query,
+  //       part: 'snippet'
+  //     },
+  //     dataType: 'json',
+  //     success: function(data) {
+  //       console.log('Success!', data.items);
+  //       this.set( data.items );
+  //       var model = data.items[0];
+
+  //       var id = model.id.videoId;
+  //       var title = model.snippet.title;
+  //       var description = model.snippet.description;
+  //       var url = `https://www.youtube.com/embed/${id}`;
+
+  //       $('.video-player').find('iframe').attr('src', url);
+  //       $('.video-player').find('iframe').attr('src', url);
+  //       $('.video-player').find('.video-player-details h3').text(title);      
+  //       $('.video-player').find('.video-player-details div').text(description);
+
+  //     }.bind(this),
+  //     error: function(data) {
+  //       console.log('Failure...', data);
+  //     }.bind(this)
+  //   });
+  // },
+  
   render() {
     return (
       <div>
