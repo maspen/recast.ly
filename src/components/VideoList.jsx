@@ -1,17 +1,18 @@
 class VideoList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    // this.state = {
       
-    }
+    // }
   }
   
   render() {
-    console.log(this.props.data);
+    var updateVideoPlayer = this.props.updateVideoPlayer;    
+      console.log('VideoList: handleChange from APP: ', updateVideoPlayer);
     return (
       <div className="video-list">
-        {this.props.videos.map(movie => 
-            <VideoListEntry key={movie.etag.toString()} video={movie} />
+        {this.props.videos.map((movie, i) => 
+            <VideoListEntry clickForPlayer={updateVideoPlayer} key={movie.etag.toString()} video={movie} movieIndex={i} />
         )}
       </div>
     );
