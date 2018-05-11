@@ -6,7 +6,7 @@ class App extends React.Component {
       videos: null,
       currentVideo: null,
       searchQuery: ''
-    }
+    };
 
     // on start up, need to put in 'dummy' data
     // since 1st, default youtube search is happening
@@ -38,34 +38,34 @@ class App extends React.Component {
   handleVideoListEntryClick(movie) {
     this.setState({
       currentVideo: this.state.videos[Number(movie.target.id)]
-    })
+    });
   }
   
-  handleChange(e) {
-    this.setState({ searchQuery: e.target.value });
+  handleChange(text) {
+    //console.log('handleChange ', text);
+    this.setState({ searchQuery: text }, function(){
+      this.searchYouTubeButtonClick();
+    });
   }
 
   searchResultCallback(resultData) {
-    console.log('searchResultCallback ', resultData);
+    //console.log('searchResultCallback ', resultData);
     this.setState({ 
       videos: resultData,
       currentVideo: resultData[0]
-     });
+    });
   }
 
   searchYouTubeButtonClick() {
-    console.log('search box input', this.state.searchQuery);
-    // { key: 'API_KEY', query: 'cats', max: 10 }
-    //window.searchYouTube(this.state.searchQuery, this.searchResultCallback.bind(this));
+    //console.log('search box input', this.state.searchQuery);
     window.searchYouTube({ key: YOUTUBE_API_KEY, query: this.state.searchQuery, max: 10 }, this.searchResultCallback.bind(this));
   }
-  
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search search={this.searchYouTubeButtonClick.bind(this)} textBoxChange={this.handleChange.bind(this)} /></div>
+            <div><Search search={this.searchYouTubeButtonClick.bind(this)} textBoxChange={_.debounce(this.handleChange.bind(this), 500)} /></div>
           </div>
         </nav>
         <div className="row">
@@ -79,7 +79,7 @@ class App extends React.Component {
       </div>
     );
   }
-};
+}
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined

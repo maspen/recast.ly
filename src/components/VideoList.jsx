@@ -10,12 +10,12 @@
 //     var updateVideoPlayer = this.props.updateVideoPlayer;    
 //       console.log('VideoList: handleChange from APP: ', updateVideoPlayer);
 var VideoList = (props) => (
-      <div className="video-list">
-        {props.videos.map((movie, i) => 
-            <VideoListEntry clickForPlayer={props.updateVideoPlayer} key={movie.etag.toString()} video={movie} movieIndex={i} />
-        )}
-      </div>
-)
+  <div className="video-list">
+    {props.videos.map((movie, i) => 
+      <VideoListEntry clickForPlayer={props.updateVideoPlayer} key={movie.etag.toString()} video={movie} movieIndex={i} />
+    )}
+  </div>
+);
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated
